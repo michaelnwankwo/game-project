@@ -68,7 +68,7 @@
 
 // // Coding Challenge #1
 
-// /* 
+// /*
 // Implement a game rest functionality, so that the player can make a new guess! Here is how:
 
 // 1. Select the element with the 'again' class and attach a click event handler
@@ -103,8 +103,29 @@
 //     afresh();
 //   }
 // });
-
 "use strict";
+
+// Modal functionality
+const modal = document.querySelector(".modal");
+const modalBtn = document.querySelector(".modal-btn");
+
+// Show modal on load
+window.addEventListener("load", () => {
+  modal.classList.add("show");
+});
+
+// Start game when modal button clicked
+modalBtn.addEventListener("click", () => {
+  modal.classList.remove("show");
+  document.querySelector(".guess").focus();
+});
+
+// Optional: Allow ESC key to show instructions again
+document.addEventListener("keydown", function (k) {
+  if (k.key === "Escape" && !modal.classList.contains("show")) {
+    modal.classList.add("show");
+  }
+});
 
 // Game Variables
 let secretNumber = Math.trunc(Math.random() * 20) + 1;
@@ -112,12 +133,12 @@ let highscore = 0;
 let score = 20;
 
 // DOM Elements
-const messageEl = document.querySelector('.message');
-const numberEl = document.querySelector('.number');
-const bodyEl = document.querySelector('body');
-const guessInput = document.querySelector('.guess');
-const scoreEl = document.querySelector('.score');
-const highscoreEl = document.querySelector('.highscore');
+const messageEl = document.querySelector(".message");
+const numberEl = document.querySelector(".number");
+const bodyEl = document.querySelector("body");
+const guessInput = document.querySelector(".guess");
+const scoreEl = document.querySelector(".score");
+const highscoreEl = document.querySelector(".highscore");
 
 // Game Logic
 const confirm = function () {
@@ -125,14 +146,14 @@ const confirm = function () {
 
   // When there is no input
   if (!guess) {
-    messageEl.textContent = '⛔ No number!';
+    messageEl.textContent = "⛔ No number!";
 
-  // When player wins
+    // When player wins
   } else if (guess === secretNumber) {
-    messageEl.textContent = 'Correct score! 🎉🎉';
+    messageEl.textContent = "Correct score! 🎉🎉";
     numberEl.textContent = secretNumber;
-    bodyEl.style.backgroundColor = '#60b347';
-    numberEl.style.width = '30rem';
+    bodyEl.style.backgroundColor = "#60b347";
+    numberEl.style.width = "30rem";
 
     // Update highscore
     if (score > highscore) {
@@ -140,14 +161,15 @@ const confirm = function () {
       highscoreEl.textContent = highscore;
     }
 
-  // When guess is wrong
+    // When guess is wrong
   } else {
     if (score > 1) {
-      messageEl.textContent = guess > secretNumber ? 'Too high! 😝😝' : 'Too low! 😝😝';
+      messageEl.textContent =
+        guess > secretNumber ? "Too high! 😝😝" : "Too low! 😝😝";
       score--;
       scoreEl.textContent = score;
     } else {
-      messageEl.textContent = '😭😭 You lost the game!!';
+      messageEl.textContent = "😭😭 You lost the game!!";
       scoreEl.textContent = 0;
     }
   }
@@ -158,25 +180,25 @@ const afresh = function () {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
 
-  messageEl.textContent = 'Start guessing...';
+  messageEl.textContent = "Start guessing...";
   scoreEl.textContent = score;
-  numberEl.textContent = '?';
-  guessInput.value = '';
+  numberEl.textContent = "?";
+  guessInput.value = "";
 
-  bodyEl.style.backgroundColor = '#222';
-  numberEl.style.width = '15rem';
+  bodyEl.style.backgroundColor = "#222";
+  numberEl.style.width = "15rem";
 };
 
 // Event Listeners
-document.querySelector('.check').addEventListener('click', confirm);
-document.querySelector('.again').addEventListener('click', afresh);
+document.querySelector(".check").addEventListener("click", confirm);
+document.querySelector(".again").addEventListener("click", afresh);
 
 // Keyboard Support
-document.addEventListener('keydown', function (k) {
-  if (k.key === 'Enter') {
+document.addEventListener("keydown", function (k) {
+  if (k.key === "Enter") {
     confirm();
   }
-  if (k.key === 'Escape') {
+  if (k.key === "Escape") {
     afresh();
   }
 });
